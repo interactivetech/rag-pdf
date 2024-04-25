@@ -12,18 +12,24 @@
         "-C"
       ],
       "stdin": [
-        "python generate_qna_pairs.py --path-to-db /pfs/data --path-to-chat-model /data/Mistral-7B-Instruct-v0.1  --emb-model-path /data/bge-large-en-v1.5/ --output /pfs/out"
+        "python /pfs/code/generate_qna_pairs.py --path-to-db /pfs/data --path-to-chat-model /data/Mistral-7B-Instruct-v0.1  --emb-model-path /data/bge-large-en-v1.5/ --output /pfs/out --train_ratio 0.8"
       ],
       "env": {
         "PYTHON_UNBUFFERED": "1"
       }
     },
     "input": {
-      "pfs": {
+      "cross":[
+      {"pfs": {
         "repo": "embed-docs",
         "glob": "/",
         "name": "data"
-      }
+      }},
+      {"pfs": {
+        "repo": "code",
+        "glob": "/*"
+      }}
+      ]
     },
     "resourceRequests": {
       "cpu": 4,
