@@ -20,9 +20,15 @@ repo
 
 Add doc
 
+`pachctl put file code@master: -f parsing/parsing.py`
+
+`pachctl put file code@master: -f parsing/rag_schema.py`
+
 `pachctl put file code@master: -f finetune/generate_qna_pairs.py`
 
 `pachctl put file documents@master: -f output.pdf`
+
+`pachctl put file documents@master: -f antonio-neri.xml`
 
 parsing pipeline
 

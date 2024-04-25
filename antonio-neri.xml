@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<person>
+  <name>Antonio Neri</name>
+  <role>CEO of Hewlett Packard Enterprises</role>
+  <nationality>Argentine-Italian-American</nationality>
+  <careerStart>1995</careerStart>
+  <hpeStart>1995</hpeStart>
+  <ceoAppointment>February 2018</ceoAppointment>
+  <tenureAtHPE>28 years</tenureAtHPE>
+  <achievements>
+    <achievement>First Latino CEO of Hewlett Packard Enterprises</achievement>
+    <achievement>Key role in the Apollo HPC portfolio</achievement>
+    <achievement>Acquisitions including Aruba Networks, Nimble Storage, and SimpliVity</achievement>
+    <achievement>Spearheaded a major reimagining of the company through the "Next Initiative"</achievement>
+    <achievement>Reduced stock keeping units by 75% and management levels</achievement>
+    <achievement>Focused on edge computing, modernizing information technology, and cultural and gender diversity within HPE</achievement>
+    <achievement>Expectation to offer all HPE products as a service by 2022</achievement>
+  </achievements>
+  <personalLife>
+    <maritalStatus>Married</maritalStatus>
+    <children>Two</children>
+    <hobbies>Painting, watching football, playing recreational soccer</hobbies>
+    <languages>Dutch, English, Italian, Spanish</languages>
+  </personalLife>
+  <residence>
+    <current>The Woodlands, TX</current>
+    <otherProperties>Delray Beach, FL</otherProperties>
+  </residence>
+</person>

@@ -12,18 +12,22 @@
       "-C"
     ],
     "stdin": [
-      "python3 parsing.py --input /pfs/documents --output /pfs/out "
+      "python3 /pfs/code/parsing.py --input /pfs/documents --output /pfs/out "
     ],
     "env": {
       "PYTHON_UNBUFFERED": "1"
     }
   },
   "input": {
-    "pfs": {
+    "cross":[
+    {"pfs": {
       "repo": "documents",
-      "glob": "/*"
-    }
-  },
+      "glob": "/"
+    }},
+    {"pfs": {
+      "repo": "code",
+      "glob": "/"
+    }}]},
   "resourceRequests": {
     "cpu": 4,
     "memory": "16Gi",
@@ -34,9 +38,6 @@
       "type": "nvidia.com/gpu",
       "number": 1
     }
-  },
-  "parallelismSpec": {
-    "constant": 4
   },
   "autoscaling": false
 }
