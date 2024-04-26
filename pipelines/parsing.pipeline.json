@@ -6,13 +6,13 @@
     }
   },
   "transform": {
-    "image": "vmtyler/pdk:parsing-v0.0.8",
+    "image": "mendeza/pdk:parsing-v0.0.1",
     "cmd": [
       "/bin/bash",
       "-C"
     ],
     "stdin": [
-      "python3 /pfs/code/parsing.py --input /pfs/documents --output /pfs/out "
+      "python3 parsing.py --input /pfs/documents --output /pfs/out "
     ],
     "env": {
       "PYTHON_UNBUFFERED": "1"
