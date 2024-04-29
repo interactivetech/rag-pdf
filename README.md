@@ -51,7 +51,6 @@ qna pipeline
 
 `pachctl create pipeline -f pipelines/qna.pipeline.json`
 
-[DO NOT RUN: 04/26/2024] ISSUE WITH finetune embedding pipeline
 
 `pachctl create pipeline -f pipelines/finetune.pipeline.json`
 
