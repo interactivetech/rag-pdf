@@ -6,7 +6,7 @@
       }
     },
     "transform": {
-      "image": "vmtyler/pdk:genqna-v0",
+      "image": "mendeza/pdk:genqna-v0.0.1",
       "cmd": [
         "/bin/bash",
         "-C"

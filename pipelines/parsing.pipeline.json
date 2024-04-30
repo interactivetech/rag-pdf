@@ -19,15 +19,10 @@
     }
   },
   "input": {
-    "cross":[
-    {"pfs": {
+    "pfs": {
       "repo": "documents",
       "glob": "/"
-    }},
-    {"pfs": {
-      "repo": "code",
-      "glob": "/"
-    }}]},
+    },
   "resourceRequests": {
     "cpu": 4,
     "memory": "16Gi",
