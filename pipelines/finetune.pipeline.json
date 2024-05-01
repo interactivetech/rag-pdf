@@ -2,7 +2,7 @@
     "pipeline": {
       "name": "finetune-embedding",
       "project": {
-        "name": "pdf-rag-andrew"
+        "name": "rag-demo-hpe"
       }
     },
     "description": "Detects changed files into a repository and triggers a retraining on that dataset",

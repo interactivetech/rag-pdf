@@ -2,7 +2,7 @@
     "pipeline": {
       "name": "generate-qna",
       "project": {
-        "name": "pdf-rag-andrew"
+        "name": "rag-demo-hpe"
       }
     },
     "transform": {

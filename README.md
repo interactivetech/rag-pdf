@@ -1,101 +1,181 @@
+img src="https://raw.githubusercontent.com/hpe-design/logos/master/Requirements/color-logo.png" alt="HPE Logo" height="100"/>
 
-# Connect to deployed pachyderm application
+# RAG demo (Chat with HPE Press Release version)
+
+<b>Author:</b> Andrew Mendez </br>
+<b>Date:</b> 05/01/2024</br>
+<b>Revision:</b> 0.1</br>
+
+This demonstration was built to showcase Retrieval Augmented Generation (RAG) on HPE press release documents
+.
+It shows how RAG can be used to assist customers with keeping up with recent HPE news articles.
+The information to answer the questions is sourced from the owners manuals which are publicly available.
+
+To replicate this demo, you will need:
+
+ - A functioning Kubernetes cluster with loadbalancers for external facing services configured
+     - cluster having shared mounted folder `/nvmefs1/tyler.britten`
+ - Pachyderm/HPE MLDM 2.9.2 installed on the cluster and fully functional
+ - At least 1x NVIDIA A100 80GB GPUs
+ - Determined.AI/HPE MLDE environment for finetuning models (not included in the base code here)
+ - 
+
+<b>NOTE:</b> You might be able to replicate this demo with other GPUs (for example L40s) as well, but you need to consider the memory footprint of other GPUs and make adjustments accordingly.
+
+
+## Recorded demos of RAG demo
+
+[ToDo]
+
+## Implementation Overview
+The below chart gives a logical overview of the application flow of Mercedes Me Chat. </br>
+<img src="./documentation_images/implementation_overview.png" alt="Implementation Overview"/>
+
+- Step 1: Connect to deployed MLDM application
+- Step 2: Create MLDM project named `rag-demo-hpe`
+- Step 3: Set new project as current context
+- Step 4: Create repo `documents` to hold xml documents
+- Step 5: Upload xml documents
+- Step 6: Pipeline step to parse documents
+- Step 7: Pipeline step to chunk documents
+- Step 8: Pipeline step to embed documents using embedding model `bge-large-en-v1.5`
+- Step 9: Pipeline step to deploy gui application
+- Step 10: Interact with gui application
+- Step 11: Add new documents to repo `documents` to improve RAG App
+- Step 12: (Optional Step) Pipeline step to develop dataset for finetuning embeddings: qna pipeline
+- Step 13: (Optional Step) Pipeline step to fientune embeddings
+- Step 14: Delete pipelines
+
+
+<b>RAG demo includes solution components from:</b>
+- [Pachyderm / HPE MLDM](https://www.hpe.com/us/en/hpe-machine-learning-data-management-software.html)
+- [ChromaDB](https://www.trychroma.com/)
+- [Streamlit frontend](https://streamlit.io)
+
+# Steps to run the demo
+
+## Step 1: Connect to deployed MLDM application
+
 `pachctl connect pachd-peer.pachyderm.svc.cluster.local:30653`
-# list current projects
-`pachctl list project`
 
-`pachctl version`
+## Step 2: Create MLDM project named `rag-demo-hpe`
 
-# Create Pachyderm application
-`pachctl create project pdf-rag-andrew`
-# Set pachctl's active context to the deploy-rag project
-`pachctl config update context --project pdf-rag-andrew`
+`pachctl create project rag-demo-hpe`
 
-## Pipeline will be available at the url:
-``
+## Step 3: Set new project as current context
 
-repo
+`pachctl config update context --project rag-demo-hpe`
+
+### Pipeline will be available at the url:
+
+`http://mldm-pachyderm.us.rdlabs.hpecorp.net/lineage/pdf-rag-andrew`
+
+## Step 4: Create repo `documents` to hold xml documents
 
 `pachctl create repo documents`
 
-`pachctl create repo code`
-
-Add doc
-
-`pachctl put file code@master: -f parsing/parsing.py`
-
-`pachctl put file code@master: -f parsing/rag_schema.py`
-
-`pachctl put file code@master: -f finetune/generate_qna_pairs.py`
-
-`pachctl put file code@master: -f embedding/embed.py`
-
-`pachctl put file documents@master: -f output.pdf`
+## Step 5: Upload xml documents
 
 `pachctl put file documents@master: -f antonio-neri.xml`
 `pachctl put file documents@master: -f aruba_wifi_7_press.xml`
 `pachctl put file documents@master: -f e2e_ai_platform_press_release.xml`
 
-parsing pipeline
+## Step 6: Pipeline step to parse documents
+
+This pipeline takes the raw xml documents, and parses them into json format.
 
 `pachctl create pipeline -f pipelines/parsing.pipeline.json`
 
-chunking pipeline
+## Step 7: Pipeline step to chunk documents
+
+This pipeline takes the parsed documents, and applies chunking to create chunked documents.
 
 `pachctl create pipeline -f pipelines/chunking.pipeline.json`
 
-embedding pipeline
+## Step 8: Pipeline step to embed documents using embedding model `bge-large-en-v1.5`
+
+This pipeline takes the chunked documents, and creates vector embeddings using the vector embedding `bge-large-en-v1.5`
 
 `pachctl create pipeline -f pipelines/embedding.pipeline.json`
 
 
+## Step 9: Pipeline step to deploy gui application
 
-
-qna pipeline
-
-`pachctl create pipeline -f pipelines/qna.pipeline.json`
-
-
-`pachctl create pipeline -f pipelines/finetune.pipeline.json`
-
-gui pipeline
+This pipeline will deploy a streamlit application for user to interact with the GUI
 
 `pachctl create pipeline -f pipelines/gui.pipeline.json`
 
-To access GUI:
+## Step 10: Interact with gui application
 
 Note: There is an issue with the houston cluster where there are not enough IP addresses for service pipeline.
 
-Run:
+### run command to ssh into node:
 
 `ssh andrew@mlds-mgmt.us.rdlabs.hpecorp.net -L 8080:localhost:8080`
 
-Run command:
+### run command to port forward gui to local computer:
 
 `kubectl port-forward -n pachyderm svc/pdf-rag-andrew-gui-v1-user 8080:80`
 
-Open web browswer and go to url:
+### Open web browswer and go to url `localhost:8080`
 
-`localhost:8080`
-
-Ask in the UI:
+####  Ask in the UI:
 
 `Who is Antonio Neri?`
 
 
-Now ask, the app wont answer it correctly:
+#### Now ask, the app wont answer it correctly:
+
 `Who is Neil MacDonald?`
+
+## Step 11: Add new documents to repo `documents` to improve RAG App
 
 We will show the key value proposition with a data driven pipeline, add more documents, the RAG app will automatically be updated. 
 
-In the terminal, add new document:
+### In the terminal, add new document:
 
 `pachctl put file documents@master: -f neil-macdonald.xml`
 
 When pipeline is done, refresh webpage and ask:
 `Who is Neil MacDonald?`
 
-Delete pipelines
+
+# Optional Steps
+
+## Step 12: (Optional Step) Pipeline step to develop dataset for finetuning embeddings: qna pipelinee
+
+`pachctl create pipeline -f pipelines/qna.pipeline.json`
+
+## Step 13: (Optional Step) Pipeline step to fientune embeddings
+
+Note, what is hardcoded is the following in `fientune/experiment/const.yaml`:
+
+```
+name: arctic-embed-fine-tune
+workspace: Tyler
+project: doc_embeds
+```
+
+Also the bind_mounts are hardcoded. This assumes you are running on a cluster (i.e. the houston cluster) where you have a mounted shared folder called `/nvmefs1`
+
+```
+bind_mounts:
+  - container_path: /nvmefs1/
+    host_path: /nvmefs1/
+    propagation: rprivate
+    read_only: false
+  - container_path: /determined_shared_fs
+    host_path: /nvmefs1/determined/checkpoints
+    propagation: rprivate
+    read_only: false
+```
+
+### Step to trigger fientune pipeline: 
+
+`pachctl create pipeline -f pipelines/finetune.pipeline.json`
+
+
+## Delete pipelines
 
 `pachctl delete pipeline gui`
 `pachctl delete pipeline finetune-embedding`
@@ -103,64 +183,4 @@ Delete pipelines
 `pachctl delete pipeline embed-docs`
 `pachctl delete pipeline chunk-doc`
 `pachctl delete pipeline parse-docs`
-
-```
-pachctl create repo documents
-pachctl create repo code
-
-pachctl put file documents@master: -f antonio-neri.xml
-pachctl put file code@master: -f parsing/parsing.py
-pachctl put file code@master: -f finetune/generate_qna_pairs.py
-pachctl put file code@master: -f embedding/embed.py
-
-pachctl create pipeline -f pipelines/parsing.pipeline.json
-pachctl create pipeline -f pipelines/chunking.pipeline.json
-pachctl create pipeline -f pipelines/embedding.pipeline.json
-pachctl create pipeline -f pipelines/qna.pipeline.json
-pachctl create pipeline -f pipelines/gui.pipeline.json
-```
-
-SSH TO MLDS MGMT node
-
-
-Run command 
-`kubectl port-forward -n pachyderm svc/pdf-rag-andrew-gui-v1-user 8080:80`
-
-`go to localhost:8080`
-
-`ask question:  Who is Antonio Neri?`
-
-Then ask
-
-`Who is Neil MacDonald?`
-
-
-
-Run command
-
-`pachctl put file documents@master: -f neil-macdonald.xml`
-
-Run 
-
-(4/26/2028) MLDM has a bug right now in service pipelines. you have to kill the pipeline to get the new data
-
-`pachctl delete pipeline gui`
-
-`pachctl create pipeline -f pipelines/gui.pipeline.json`
-
-`Select clear cache`
-
-reload webpage , and then ask
-
-`Who is Neil MacDonald?`
-
-
-```
-pachctl delete pipeline gui
-pachctl delete pipeline generate-qna
-pachctl delete pipeline embed-docs
-pachctl delete pipeline chunk-doc
-pachctl delete pipeline parse-docs
-pachctl delete repo documents
-pachctl delete repo code
-```
+`pachctl delete repo documents`

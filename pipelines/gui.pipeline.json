@@ -2,7 +2,7 @@
     "pipeline": {
       "name": "gui",
       "project": {
-        "name": "pdf-rag-andrew"
+        "name": "rag-demo-hpe"
       }
     },
     "transform": {
