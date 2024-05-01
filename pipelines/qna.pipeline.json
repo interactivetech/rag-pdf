@@ -6,7 +6,7 @@
       }
     },
     "transform": {
-      "image": "mendeza/pdk:genqna-v0.0.2",
+      "image": "mendeza/pdk:genqna-v0.0.3",
       "cmd": [
         "/bin/bash",
         "-C"
@@ -19,17 +19,11 @@
       }
     },
     "input": {
-      "cross":[
-      {"pfs": {
+      "pfs": {
         "repo": "embed-docs",
         "glob": "/",
         "name": "data"
-      }},
-      {"pfs": {
-        "repo": "code",
-        "glob": "/"
-      }}
-      ]
+      }
     },
     "resourceRequests": {
       "cpu": 4,
