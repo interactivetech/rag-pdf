@@ -12,23 +12,18 @@
         "-C"
       ],
       "stdin": [
-        "python3 /pfs/code/embed.py --data-path /pfs/data --emb-model-path /data/bge-large-en-v1.5/ --path-to-db /pfs/out/"
+        "python3 embed.py --data-path /pfs/data --emb-model-path /data/bge-large-en-v1.5/ --path-to-db /pfs/out/"
       ],
       "env": {
         "PYTHON_UNBUFFERED": "1"
       }
     },
     "input": {
-      "cross":
-      [{"pfs": {
+      "pfs": {
         "repo": "chunk-docs",
         "name": "data",
         "glob": "/"
-      }},
-      {"pfs": {
-        "repo": "code",
-        "glob": "/"
-      }}]
+      }
     },
     "resourceLimits": {
       "gpu": {

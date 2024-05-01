@@ -11,6 +11,8 @@
 # Set pachctl's active context to the deploy-rag project
 `pachctl config update context --project pdf-rag-andrew`
 
+## Pipeline will be available at the url:
+``
 
 repo
 
@@ -31,6 +33,8 @@ Add doc
 `pachctl put file documents@master: -f output.pdf`
 
 `pachctl put file documents@master: -f antonio-neri.xml`
+`pachctl put file documents@master: -f aruba_wifi_7_press.xml`
+`pachctl put file documents@master: -f e2e_ai_platform_press_release.xml`
 
 parsing pipeline
 
@@ -58,18 +62,34 @@ gui pipeline
 
 `pachctl create pipeline -f pipelines/gui.pipeline.json`
 
-Ask:
+To access GUI:
+
+Note: There is an issue with the houston cluster where there are not enough IP addresses for service pipeline.
+
+Run:
+
+`ssh andrew@mlds-mgmt.us.rdlabs.hpecorp.net -L 8080:localhost:8080`
+
+Run command:
+
+`kubectl port-forward -n pachyderm svc/pdf-rag-andrew-gui-v1-user 8080:80`
+
+Open web browswer and go to url:
+
+`localhost:8080`
+
+Ask in the UI:
 
 `Who is Antonio Neri?`
 
-`How long has Antonio Neri been at HPE?`
 
-Now ask:
+Now ask, the app wont answer it correctly:
 `Who is Neil MacDonald?`
 
-It wont get it correctly.
+We will show the key value proposition with a data driven pipeline, add more documents, the RAG app will automatically be updated. 
 
-Add new document:
+In the terminal, add new document:
+
 `pachctl put file documents@master: -f neil-macdonald.xml`
 
 When pipeline is done, refresh webpage and ask:

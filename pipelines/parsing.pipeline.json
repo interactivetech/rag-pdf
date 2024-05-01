@@ -22,7 +22,7 @@
     "pfs": {
       "repo": "documents",
       "glob": "/"
-    },
+    }},
   "resourceRequests": {
     "cpu": 4,
     "memory": "16Gi",
