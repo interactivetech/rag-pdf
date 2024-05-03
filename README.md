@@ -76,9 +76,9 @@ The below chart gives a logical overview of the application flow of Mercedes Me 
 
 ## Step 5: Upload xml documents
 
-`pachctl put file documents@master: -f antonio-neri.xml`
-`pachctl put file documents@master: -f aruba_wifi_7_press.xml`
-`pachctl put file documents@master: -f e2e_ai_platform_press_release.xml`
+`pachctl put file documents@master: -f data/antonio-neri.xml`
+`pachctl put file documents@master: -f data/aruba_wifi_7_press.xml`
+`pachctl put file documents@master: -f data/e2e_ai_platform_press_release.xml`
 
 ## Step 6: Pipeline step to parse documents
 
